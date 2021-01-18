@@ -23,7 +23,7 @@
   <meta name="description" content="背景介绍x86的保护模式下，引入了特权级的概念，可以为执行的代码段赋予0-3四个特权级，0的特权级最高，一般是操作系统的代码，4的特权级最低，一般是应用程序。 特权级这个词出现在以下概念中： 描述符特权级DPL(Descriptor Privilege Level)在保护模式下，使用8个字节的数据结构“段描述符”来定义一个段，其中有一个字段是描述符特权级DPL(Descriptor Privile">
 <meta property="og:type" content="article">
 <meta property="og:title" content="x86保护模式下请求特权级RPL(Requested Privilege Level)的作用">
-<meta property="og:url" content="https://ccinn.cc/2020/07/28/x86%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E4%B8%8B%E8%AF%B7%E6%B1%82%E7%89%B9%E6%9D%83%E7%BA%A7RPL-Requested-Privilege-Level-%E7%9A%84%E4%BD%9C%E7%94%A8/index.html">
+<meta property="og:url" content="https://ccinn.cc/x86%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E4%B8%8B%E8%AF%B7%E6%B1%82%E7%89%B9%E6%9D%83%E7%BA%A7RPL-Requested-Privilege-Level-%E7%9A%84%E4%BD%9C%E7%94%A8/index.html">
 <meta property="og:site_name" content="CoCo Inn 码映">
 <meta property="og:description" content="背景介绍x86的保护模式下，引入了特权级的概念，可以为执行的代码段赋予0-3四个特权级，0的特权级最高，一般是操作系统的代码，4的特权级最低，一般是应用程序。 特权级这个词出现在以下概念中： 描述符特权级DPL(Descriptor Privilege Level)在保护模式下，使用8个字节的数据结构“段描述符”来定义一个段，其中有一个字段是描述符特权级DPL(Descriptor Privile">
 <meta property="og:locale" content="en_US">
@@ -35,7 +35,7 @@
 <meta property="article:tag" content="特权级保护">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://ccinn.cc/2020/07/28/x86%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E4%B8%8B%E8%AF%B7%E6%B1%82%E7%89%B9%E6%9D%83%E7%BA%A7RPL-Requested-Privilege-Level-%E7%9A%84%E4%BD%9C%E7%94%A8/">
+<link rel="canonical" href="https://ccinn.cc/x86%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E4%B8%8B%E8%AF%B7%E6%B1%82%E7%89%B9%E6%9D%83%E7%BA%A7RPL-Requested-Privilege-Level-%E7%9A%84%E4%BD%9C%E7%94%A8/">
 
 
 <script id="page-configurations">
@@ -154,7 +154,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://ccinn.cc/2020/07/28/x86%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E4%B8%8B%E8%AF%B7%E6%B1%82%E7%89%B9%E6%9D%83%E7%BA%A7RPL-Requested-Privilege-Level-%E7%9A%84%E4%BD%9C%E7%94%A8/">
+    <link itemprop="mainEntityOfPage" href="https://ccinn.cc/x86%E4%BF%9D%E6%8A%A4%E6%A8%A1%E5%BC%8F%E4%B8%8B%E8%AF%B7%E6%B1%82%E7%89%B9%E6%9D%83%E7%BA%A7RPL-Requested-Privilege-Level-%E7%9A%84%E4%BD%9C%E7%94%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -254,11 +254,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/14/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%AD%E6%98%9F%E9%97%AD%E5%8C%85%E8%BD%ACNFA%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%B8%A4%E6%9D%A1%E7%A9%BA%E8%BE%B9/" rel="prev" title="正则表达式中星闭包转NFA为什么有两条空边">
+    <a href="/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%AD%E6%98%9F%E9%97%AD%E5%8C%85%E8%BD%ACNFA%E4%B8%BA%E4%BB%80%E4%B9%88%E6%9C%89%E4%B8%A4%E6%9D%A1%E7%A9%BA%E8%BE%B9/" rel="prev" title="正则表达式中星闭包转NFA为什么有两条空边">
       <i class="fa fa-chevron-left"></i> 正则表达式中星闭包转NFA为什么有两条空边
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/09/19/%E3%80%8A%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="next" title="《数学之美》读书笔记">
+    <a href="/%E3%80%8A%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E%E3%80%8B%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/" rel="next" title="《数学之美》读书笔记">
       《数学之美》读书笔记 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
@@ -441,7 +441,7 @@ NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
       repo        : 'blogCmtRepo',
       owner       : 'CoCoThink',
       admin       : ['CoCoThink'],
-      id          : '01d91110946cb689558dcee1ee0b11c1',
+      id          : '5cc5e82ef952258f384eddf7a8d417fd',
         language: '',
       distractionFreeMode: false
     });
