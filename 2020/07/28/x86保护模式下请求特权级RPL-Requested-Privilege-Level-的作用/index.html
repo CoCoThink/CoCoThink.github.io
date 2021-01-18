@@ -28,7 +28,7 @@
 <meta property="og:description" content="背景介绍x86的保护模式下，引入了特权级的概念，可以为执行的代码段赋予0-3四个特权级，0的特权级最高，一般是操作系统的代码，4的特权级最低，一般是应用程序。 特权级这个词出现在以下概念中： 描述符特权级DPL(Descriptor Privilege Level)在保护模式下，使用8个字节的数据结构“段描述符”来定义一个段，其中有一个字段是描述符特权级DPL(Descriptor Privile">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-07-28T15:21:23.000Z">
-<meta property="article:modified_time" content="2020-07-28T16:47:29.000Z">
+<meta property="article:modified_time" content="2021-01-18T05:14:27.564Z">
 <meta property="article:author" content="CoCoThink">
 <meta property="article:tag" content="汇编语言">
 <meta property="article:tag" content="保护模式">
@@ -184,7 +184,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-29 00:47:29" itemprop="dateModified" datetime="2020-07-29T00:47:29+08:00">2020-07-29</time>
+                <time title="Modified: 2021-01-18 13:14:27" itemprop="dateModified" datetime="2021-01-18T13:14:27+08:00">2021-01-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -223,6 +223,8 @@
 <p><code>mov eax,0x0010</code></p>
 <p><code>mov ds,eax</code></p>
 <p>那么，如果在代码中调高段选择子的RPL(比CPL高)，那么会发生什么？</p>
+<a id="more"></a>
+
 <h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><p>首先，对于第二个问题很好解答，CPU一定会检查CPL和RPL要高于或和要访问数据段的DPL相同，所以如果单方面把RPL调高，而CPL达不到要访问的数据段的DPL，是肯定会被CPU拦截，引发中断。</p>
 <p>对于RPL的作用，其实在于一些特殊的情况。</p>
 <p>计算机操作系统通常提供了一些例程，比如操控硬件，访问硬盘，用以用户程序的工作量，这些操作系统的代码的特权级是0，应用程序使用这些例程的方法通常是门调用，因为通过调用门实施控制转移可以改变CPL，比如从3到0，那么要是只有CPL这道屏障，用户程序可能利用这个操作系统的例程为所欲为。举个栗子，假如操作系统提供了一个例程，功能是将硬盘一个扇区的内容读到内存，必须传入3个参数，分别是CX寄存器中的数据段选择子、EBX寄存器中的段内偏移，以及EAX中的逻辑扇区号。如果某恶意程序通过钻研，知道了系统的某个关键数据段的段选择子，把这个段选择子传到例程中，由于例程的CPL是0，允许操作，那么恶意程序就能通过这个方法破坏系统段了。</p>
